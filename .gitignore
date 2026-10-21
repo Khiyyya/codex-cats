@@ -1,0 +1,23 @@
+# Local credentials, configuration, runtime and development artifacts
+.env
+.env.*
+auth.json
+settings.json
+runtime.json
+config-ownership.json
+config-original.toml
+local-settings.json
+*.pem
+*.key
+*.pfx
+*.p12
+*.log
+*.jsonl
+.private/
+.venv/
+runtime/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
