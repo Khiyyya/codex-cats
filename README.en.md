@@ -78,26 +78,26 @@ These probes, warmups, and retries after explicit rejection are intentional prot
 
 ## One isolated measurement
 
-The following results come from a paired experiment: each arm ran once, using the same three different PNGs (about 10.8 MB of Base64 context in total), for four generations; the upstream was isolated for 12 seconds after the first generation. WebSocket was not forcibly disabled. Both arms naturally fell back to HTTP, all four generations succeeded, three tool calls succeeded, and the color-block recall checks passed.
+The following results come from a paired experiment: each arm ran once, using the same three different PNGs (about 10.8 MB of Base64 context in total), for four generations; the upstream was isolated for 12 seconds after the first generation. WebSocket was not forcibly disabled. Both arms naturally fell back to HTTP, all four generations succeeded, three tool calls succeeded, and the color-block recall checks passed. The prompt did not supply the color answers. Test date: 2026-10-22; Desktop 26.1016.6573.0, core 0.163.0-alpha.11, model `gpt-6-astra` (low reasoning).
 
 ![Isolated measurement](assets/test-results.svg)
 
-- TLS + CONNECT bytes on the local machine's Clash path: native `32,448,069 B`, CATS `16,552,747 B`, a `48.99%` reduction. This includes handshakes, retries, and compression differences. It is an observation of the local-machine-to-Clash path, not a WAN or NIC traffic conclusion.
-- Decompressed application payload across four completed generations: native `43,226,206 B`, CATS `21,584,403 B`, about a `50.07%` reduction. The client still gives the complete HTTP request to local CATS; the saving occurs between CATS and the upstream. HTTP request bodies use zstd, and the upstream WebSocket negotiates permessage-deflate. Uncompressed payload size must not be treated as on-wire bytes.
-- The last two delta payloads were `2,479 B` and `2,504 B`. The first request after rebuilding the connection was still full; subsequent requests could convert the client's complete HTTP request into a delta on the same upstream WebSocket.
+- TLS + CONNECT bytes on the local machine's Clash path: native `32,438,227 B`, CATS `16,552,902 B`, a `48.97%` reduction. This includes handshakes, retries, and compression differences. It is an observation of the local-machine-to-Clash path, not a WAN or NIC traffic conclusion.
+- Canonical uncompressed JSON payload across four completed generations: native `43,226,845 B`, CATS `21,584,719 B`, about a `50.07%` reduction. The client still gives the complete HTTP request to local CATS; the saving occurs between CATS and the upstream. HTTP request bodies use zstd, and the upstream WebSocket negotiates permessage-deflate. Uncompressed payload size must not be treated as on-wire bytes.
+- The last two delta payloads were `2,480 B` and `2,505 B`. The first request after rebuilding the connection was still full; subsequent requests could convert the client's complete HTTP request into a delta on the same upstream WebSocket.
 - A native short disconnect may also recover a WebSocket delta by itself, so this one paired result cannot be generalized to a fixed gain in every network environment.
 
 The experiment used the official installed `codex.exe` core and a real ChatGPT upstream. The test harness was an isolated relay and must not be treated as equivalent to Desktop GUI validation. A simulated-server test can pass, but it does not replace GUI validation.
 
 | Metric | Native Codex | CATS |
 | --- | ---: | ---: |
-| Proxy-path upload (TLS + CONNECT) | 32.45 MB | 16.55 MB |
-| Decompressed application payload for completed generations | 43.23 MB | 21.58 MB |
-| Third-generation application payload | 10,822,838 B | 2,479 B |
-| Fourth-generation application payload | 10,824,091 B | 2,504 B |
+| Proxy-path upload (TLS + CONNECT) | 32.44 MB | 16.55 MB |
+| Canonical uncompressed JSON payload for completed generations | 43.23 MB | 21.58 MB |
+| Third-generation application payload | 10,822,938 B | 2,480 B |
+| Fourth-generation application payload | 10,824,191 B | 2,505 B |
 | Completed generations / image-recall check | 4 / passed | 4 / passed |
 
-All MB values above are decimal. An offline failed connection attempt is not proof that a complete body was uploaded to the server. The native first generation already used its own `previous_response_id`; it is not counted as a CATS advantage. One paired experiment cannot establish long-term savings or fully equivalent quality.
+Application payload is measured as compact UTF-8 JSON, rather than raw HTTP bytes or compressed on-wire bytes. All MB values above are decimal. An offline failed connection attempt is not proof that a complete body was uploaded to the server. The native first generation already used its own `previous_response_id`; it is not counted as a CATS advantage. One paired experiment cannot establish long-term savings or fully equivalent quality.
 
 ## Validation scope
 
@@ -115,6 +115,10 @@ The current build and offline validation passed: 131 automated tests, PowerShell
 - CATS does not record chat text, images, account tokens, or Cookies. Metrics contain only payload sizes, counts, transport and reason statistics, and similar bounded fields. Installation state stores the local random gateway token and must be treated as private data.
 - Installation backups are used to restore the Codex configuration and may contain user configuration. Treat them as private data.
 - CATS does not change the system proxy or certificates and does not automatically rewrite a custom provider, base URL, PAC, SOCKS, or credential-bearing proxy into a usable configuration.
+
+## Co-author
+
+[hadwr](https://github.com/hadwr) is credited as a co-author in the initial commit.
 
 ## License and assets
 
