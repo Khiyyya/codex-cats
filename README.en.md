@@ -18,12 +18,12 @@ CATS is a local gateway companion for Windows x64. It identifies context that ca
 ## Installation
 
 1. Install the official Codex Desktop on Windows x64 and sign in with a ChatGPT account.
-2. Download this project's ZIP and extract it to a local directory.
+2. Download the ZIP from [Releases](https://github.com/Khiyyya/codex-cats/releases) and extract it to a local directory.
 3. Double-click `INSTALL.cmd`.
 
 The installer does not require system Python and does not change the system PATH, proxy, or certificates. It registers a CATS-owned startup entry and scheduled task for the current user. In the local installation directory it uses fixed versions and SHA-256 verification for a self-contained embedded Python 3.14.9 and pip, then installs fixed dependencies from PyPI. The runtime is installed with the project and does not depend on a shared Python installation that may be upgraded or removed.
 
-The fixed dependencies are `aiohttp 3.14.5`, `websockets 16.1.1`, `zstandard 0.25.0`, `tomlkit 0.13.3`, `multidict 7.1.0`, and `yarl 1.25.1`.
+The fixed dependencies are `aiohttp 3.14.5`, `websockets 16.1.1`, `zstandard 0.25.0`, `tomlkit 0.13.3`, `multidict 7.1.0`, and `yarl 1.25.1`. The staged runtime also installs `setuptools 84.2.1` and `wheel 0.48.0` to build the source without conflicting with the embedded interpreter's isolated search path.
 
 After a first installation into an existing Codex setup, restart Codex once so the already-open process loads the new configuration. Installation enables login startup and task recovery, but the real logoff/logon cycle has not been verified and CATS does not intercept every Codex startup action. Use `START-GATEWAY.cmd` or `OPEN-CODEX.cmd` when needed. `OPEN-CODEX.cmd` starts the gateway before opening Codex. The source directory and the local installation directory provide the same command entry points.
 
@@ -87,9 +87,9 @@ The following results come from a paired experiment: each arm ran once, using th
 - The last two delta payloads were `2,480 B` and `2,505 B`. The first request after rebuilding the connection was still full; subsequent requests could convert the client's complete HTTP request into a delta on the same upstream WebSocket.
 - A native short disconnect may also recover a WebSocket delta by itself, so this one paired result cannot be generalized to a fixed gain in every network environment.
 
-The experiment used the official installed `codex.exe` core and a real ChatGPT upstream. The test harness was an isolated relay and must not be treated as equivalent to Desktop GUI validation. A simulated-server test can pass, but it does not replace GUI validation.
+The experiment used the official installed `codex.exe` core and a real ChatGPT upstream. The test harness was an isolated relay and must not be treated as equivalent to Desktop GUI validation. A simulated-server test can pass, but it does not replace GUI validation. The control arm also connects upstream through an observation forwarder, which negotiates WebSocket compression; this is not a direct native-client NIC capture. The large-payload comparison used Python 3.12.14. The shipping Python 3.14.9 runtime passed the same 131 offline regressions and a real-upstream small-text connectivity check, but the large-payload experiment has not been repeated after a full machine installation of that runtime.
 
-| Metric | Native Codex | CATS |
+| Metric | Native requests via relay | CATS |
 | --- | ---: | ---: |
 | Proxy-path upload (TLS + CONNECT) | 32.44 MB | 16.55 MB |
 | Canonical uncompressed JSON payload for completed generations | 43.23 MB | 21.58 MB |
@@ -105,9 +105,9 @@ Application payload is measured as compact UTF-8 JSON, rather than raw HTTP byte
 
 **Real official environment validation passed (core program, not GUI):** the HTTP/WS paths, tool calls, connection-failure recovery, and three-image historical color-block recall from the paired experiment above.
 
-The current build and offline validation passed: 131 automated tests, PowerShell offline checks, installation of the wheels into a fresh embedded Python 3.14.9 runtime, module imports, `pip check`, and `python -m uplink12.desktop --help`.
+Build and offline validation passed: 131 automated tests under both Python 3.12.14 and embedded Python 3.14.9; PowerShell 5.1 warning/exit-code and path checks; real embedded-runtime bootstrap; source and wheel installation; imports, `pip check`, and command entry points. The isolated installation also verified gateway startup, configuration initialization, stopping, byte-for-byte configuration restoration, and uninstall cleanup. Registry and scheduled-task operations used test doubles; the existing machine installation was not changed.
 
-**Not yet validated:** native History UI search and image reading, real account switching, the new-install end-to-end flow, logging out and signing in again, and subjective output quality. Treat these as unpromised behavior.
+**Not yet validated:** native History UI search and image reading, real account switching, a new-install end-to-end flow with real registry/task-service integration, Windows logoff/logon autostart, and subjective output quality. Treat these as unpromised behavior.
 
 ## Privacy and boundaries
 

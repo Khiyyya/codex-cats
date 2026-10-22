@@ -18,12 +18,12 @@ CATS 是一个面向 Windows x64 的本地网关伴侣，用于在官方 Codex D
 ## 安装
 
 1. 在 Windows x64 上安装官方 Codex Desktop，并使用 ChatGPT 账号登录。
-2. 下载本项目 ZIP，解压到一个本地目录。
+2. 从 [Releases](https://github.com/Khiyyya/codex-cats/releases) 下载 ZIP，解压到一个本地目录。
 3. 双击 `INSTALL.cmd`。
 
 安装器不要求系统 Python，不修改系统 PATH、代理或证书；会为当前用户注册 CATS 专用启动项和计划任务。它会在本地安装目录中使用固定版本并校验 SHA-256 的私有嵌入式 Python 3.14.9 与 pip，再从 PyPI 安装固定依赖。整个 runtime 随项目安装，不依赖可能被升级或删除的共享 Python。
 
-当前固定依赖为 `aiohttp 3.14.5`、`websockets 16.1.1`、`zstandard 0.25.0`、`tomlkit 0.13.3`、`multidict 7.1.0` 和 `yarl 1.25.1`。
+当前固定依赖为 `aiohttp 3.14.5`、`websockets 16.1.1`、`zstandard 0.25.0`、`tomlkit 0.13.3`、`multidict 7.1.0` 和 `yarl 1.25.1`。暂存运行时另预装 `setuptools 84.2.1` 与 `wheel 0.48.0` 用于构建源码，避免嵌入式解释器与 pip 临时构建环境的路径冲突。
 
 首次安装已有 Codex 时，需要重启已经打开的 Codex 才能加载新配置。安装启用登录自启和任务恢复，但未验证真实注销登录周期，也不会拦截每次启动 Codex 的动作；需要时可使用 `START-GATEWAY.cmd` 或 `OPEN-CODEX.cmd`。`OPEN-CODEX.cmd` 会先启动网关，再打开 Codex。源码目录和本地安装目录都提供同样的命令入口。
 
@@ -87,9 +87,9 @@ flowchart LR
 - 后两次增量载荷为 `2,480 B` 和 `2,505 B`；重建后的第一次请求仍是全量，随后可以把客户端的完整 HTTP 请求转换为同一条上游 WebSocket 上的增量请求。
 - 原生短断线也可能自行恢复 WebSocket 增量，因此这组单次配对结果不能推广为所有网络环境的固定收益。
 
-实验使用的是官方已安装的 `codex.exe` 核心和真实 ChatGPT 上游，测试 harness 是隔离 relay，不应套用为 Desktop GUI 已完成同等验证。模拟 server 测试可以通过，但也不替代 GUI 验证。
+实验使用的是官方已安装的 `codex.exe` 核心和真实 ChatGPT 上游，测试 harness 是隔离 relay，不应套用为 Desktop GUI 已完成同等验证。模拟 server 测试可以通过，但也不替代 GUI 验证。对照组也经观测转发器连接上游，WebSocket 压缩由该转发器协商；这不是绕过中间层的原生客户端网卡抓包。大载荷对照使用 Python 3.12.14。发行用 Python 3.14.9 已通过同一套 131 项离线回归及一次真实上游小文本连通性检查，但尚未整机安装后重跑这组大载荷实验。
 
-| 指标 | 原生 Codex | CATS |
+| 指标 | 原生请求透传对照 | CATS |
 | --- | ---: | ---: |
 | 代理链路上行（TLS + CONNECT） | 32.44 MB | 16.55 MB |
 | 已完成生成的规范化未压缩 JSON 载荷 | 43.23 MB | 21.58 MB |
@@ -105,9 +105,9 @@ flowchart LR
 
 **真实官方环境验证通过（核心程序，非 GUI）：**上述配对实验的 HTTP/WS 路径、工具调用、连接故障恢复及三张历史图片色块回忆。
 
-当前构建与离线验证已通过：131 项自动化测试、PowerShell 离线检查、全新嵌入式 Python 3.14.9 runtime 的 wheel 安装、模块导入、`pip check` 和 `python -m uplink12.desktop --help`。
+当前构建与离线验证已通过：131 项自动化测试（在 Python 3.12.14 与嵌入式 3.14.9 下均通过）、PowerShell 5.1 警告/失败退出码与路径检查、真实嵌入式运行时引导、源码与 wheel 安装、模块导入、`pip check` 和命令入口检查。隔离安装还验证了网关启动、配置初始化、停止、配置逐字恢复和卸载清理；注册表与计划任务使用测试替身，未改动本机现有安装。
 
-**尚未验证：**原生 History UI 的搜索与图片读取、账号真实切换、新安装端到端流程、注销后重新登录，以及主观输出质量。请把这些项目视为未承诺行为。
+**尚未验证：**原生 History UI 的搜索与图片读取、账号真实切换、真实注册表及任务服务参与的新装端到端流程、Windows 注销/登录后的自启，以及主观输出质量。请把这些项目视为未承诺行为。
 
 ## 隐私与边界
 

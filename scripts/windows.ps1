@@ -137,6 +137,41 @@ function Get-InstalledRuntimePython {
     return $null
 }
 
+function Invoke-NativeCapture {
+    param(
+        [Parameter(Mandatory)][string]$FilePath,
+        [Parameter(Mandatory)][string[]]$ArgumentList,
+        [Parameter(Mandatory)][string]$FailureMessage
+    )
+
+    try {
+        $fileItem = Get-Item -LiteralPath $FilePath -Force -ErrorAction Stop
+    } catch {
+        throw $FailureMessage
+    }
+    if ($fileItem.PSIsContainer -or (($fileItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0)) {
+        throw $FailureMessage
+    }
+    $previousErrorAction = $ErrorActionPreference
+    $output = @()
+    $nativeExitCode = $null
+    try {
+        $ErrorActionPreference = 'Continue'
+        $global:LASTEXITCODE = $null
+        $output = @(& $FilePath @ArgumentList 2>$null)
+        if ($null -eq $global:LASTEXITCODE) { throw $FailureMessage }
+        $nativeExitCode = [int]$global:LASTEXITCODE
+    } catch {
+        throw $FailureMessage
+    } finally {
+        $ErrorActionPreference = $previousErrorAction
+    }
+    if ($nativeExitCode -ne 0) {
+        throw $FailureMessage
+    }
+    return [pscustomobject]@{ Output = $output; ExitCode = $nativeExitCode }
+}
+
 function Invoke-NativeQuiet {
     param(
         [Parameter(Mandatory)][string]$FilePath,
@@ -144,24 +179,22 @@ function Invoke-NativeQuiet {
         [Parameter(Mandatory)][string]$FailureMessage
     )
 
-    & $FilePath @ArgumentList 1>$null 2>$null
-    if ($LASTEXITCODE -ne 0) {
-        throw $FailureMessage
-    }
+    $null = Invoke-NativeCapture -FilePath $FilePath -ArgumentList $ArgumentList -FailureMessage $FailureMessage
 }
 
 function Invoke-DesktopJson {
     param(
         [Parameter(Mandatory)][string]$Python,
-        [Parameter(Mandatory)][string]$Home,
+        [Parameter(Mandatory)][string]$InstallHome,
         [Parameter(Mandatory)][ValidateSet('stop','uninstall')][string]$Command
     )
 
-    $output = @(& $Python '-m' 'uplink12.desktop' '--home' $Home $Command 2>$null)
-    $exitCode = $LASTEXITCODE
-    if ($exitCode -ne 0) {
+    try {
+        $captured = Invoke-NativeCapture -FilePath $Python -ArgumentList @('-m','uplink12.desktop','--home',$InstallHome,$Command) -FailureMessage "Cannot safely $Command previous installation"
+    } catch {
         throw "Cannot safely $Command previous installation"
     }
+    $output = @($captured.Output)
     $text = ($output -join [Environment]::NewLine).Trim()
     if ([string]::IsNullOrWhiteSpace($text)) {
         throw "Cannot verify $Command result"
@@ -179,10 +212,12 @@ function Resolve-PhysicalInstallRoot {
         [Parameter(Mandatory)][string]$Candidate
     )
 
-    $output = @(& $Python '-c' 'from pathlib import Path;import sys;print(Path(sys.argv[1]).resolve())' $Candidate 2>$null)
-    if ($LASTEXITCODE -ne 0) {
+    try {
+        $captured = Invoke-NativeCapture -FilePath $Python -ArgumentList @('-c','from pathlib import Path;import sys;print(Path(sys.argv[1]).resolve())',$Candidate) -FailureMessage 'Cannot resolve the installed runtime location'
+    } catch {
         throw 'Cannot resolve the installed runtime location'
     }
+    $output = @($captured.Output)
     $resolved = ($output | Select-Object -Last 1 | Out-String).Trim()
     if ([string]::IsNullOrWhiteSpace($resolved)) {
         throw 'Cannot resolve the installed runtime location'
@@ -568,7 +603,11 @@ function Install-FromSource {
         $newRuntimePython = Get-InstalledRuntimePython -Runtime $stagedRuntime
         if (!$newRuntimePython) { throw 'Runtime bootstrap did not create a usable Python runtime.' }
 
-        $pipArgs = @('-m','pip','--isolated','install','--no-input','--disable-pip-version-check','--only-binary=:all:','--upgrade')
+        $buildToolArgs = @('-m','pip','--isolated','install','--no-input','--disable-pip-version-check','--only-binary=:all:','--upgrade','setuptools==84.2.1','wheel==0.48.0')
+        if ($proxy) { $buildToolArgs += @('--proxy',$proxy) }
+        Invoke-NativeQuiet -FilePath $newRuntimePython -ArgumentList $buildToolArgs -FailureMessage 'Build tool installation failed; previous installation was not changed.'
+
+        $pipArgs = @('-m','pip','--isolated','install','--no-input','--disable-pip-version-check','--only-binary=:all:','--no-build-isolation','--upgrade')
         if ($proxy) { $pipArgs += @('--proxy',$proxy) }
         $pipArgs += $sourceRoot
         Invoke-NativeQuiet -FilePath $newRuntimePython -ArgumentList $pipArgs -FailureMessage 'Dependency installation failed; previous installation was not changed.'
@@ -577,7 +616,7 @@ function Install-FromSource {
         $stagedControls = New-StagedControls -SourceRoot $sourceRoot -TransactionRoot $transaction
 
         if ($oldRuntimePython) {
-            $oldStop = Invoke-DesktopJson -Python $oldRuntimePython -Home $installRoot -Command 'stop'
+            $oldStop = Invoke-DesktopJson -Python $oldRuntimePython -InstallHome $installRoot -Command 'stop'
             if ($oldStop.stopped -ne $true) { throw 'Previous gateway did not stop; staging was discarded.' }
             $oldStopped = $true
         }
@@ -590,8 +629,12 @@ function Install-FromSource {
         $newRuntimePython = Get-InstalledRuntimePython -Runtime (Join-Path $installRoot 'runtime')
         if (!$newRuntimePython) { throw 'Committed runtime location is not usable.' }
 
-        $activationOutput = @(& $newRuntimePython '-m' 'uplink12.desktop' '--home' $installRoot 'install' 2>$null)
-        if ($LASTEXITCODE -ne 0) { throw 'New installation activation failed; previous installation is being restored.' }
+        try {
+            $activationCall = Invoke-NativeCapture -FilePath $newRuntimePython -ArgumentList @('-m','uplink12.desktop','--home',$installRoot,'install') -FailureMessage 'New installation activation failed; previous installation is being restored.'
+        } catch {
+            throw 'New installation activation failed; previous installation is being restored.'
+        }
+        $activationOutput = @($activationCall.Output)
         $activationText = ($activationOutput -join [Environment]::NewLine).Trim()
         try {
             $activation = $activationText | ConvertFrom-Json
@@ -613,7 +656,7 @@ function Install-FromSource {
             if (Test-ExistingPath $newSettings) {
                 if ($newRuntimePython -and (Test-ExistingPath $newRuntimePython)) {
                     try {
-                        $newStop = Invoke-DesktopJson -Python $newRuntimePython -Home $installRoot -Command 'stop'
+                        $newStop = Invoke-DesktopJson -Python $newRuntimePython -InstallHome $installRoot -Command 'stop'
                         $newStopVerified = ($newStop.stopped -eq $true)
                     } catch { }
                 }
@@ -632,8 +675,9 @@ function Install-FromSource {
         if ($oldStopped -and $oldEnabled) {
             $restoredPython = Get-InstalledRuntimePython -Runtime (Join-Path $installRoot 'runtime')
             if ($restoredPython) {
-                & $restoredPython '-m' 'uplink12.desktop' '--home' $installRoot 'install' 1>$null 2>$null
-                if ($LASTEXITCODE -ne 0) {
+                try {
+                    $null = Invoke-NativeCapture -FilePath $restoredPython -ArgumentList @('-m','uplink12.desktop','--home',$installRoot,'install') -FailureMessage 'previous runtime re-enable failed'
+                } catch {
                     throw 'Installation failed; previous runtime was restored but could not be re-enabled automatically.'
                 }
             } else {
@@ -686,7 +730,7 @@ if ($script:ActionHandled) {
 }
 
 if ($Action -in @('stop','uninstall')) {
-    $result = Invoke-DesktopJson -Python $runtimePython -Home $installRoot -Command $Action
+    $result = Invoke-DesktopJson -Python $runtimePython -InstallHome $installRoot -Command $Action
     if ($result.stopped -ne $true) {
         throw 'Gateway did not stop; installation was retained for a safe retry.'
     }
@@ -698,7 +742,9 @@ if ($Action -in @('stop','uninstall')) {
     return
 }
 
-& $runtimePython '-m' 'uplink12.desktop' '--home' $installRoot $Action
-if ($LASTEXITCODE -ne 0) {
+try {
+    $actionCall = Invoke-NativeCapture -FilePath $runtimePython -ArgumentList @('-m','uplink12.desktop','--home',$installRoot,$Action) -FailureMessage 'Command failed; see the sanitized error above.'
+} catch {
     throw 'Command failed; see the sanitized error above.'
 }
+@($actionCall.Output) | Write-Output
