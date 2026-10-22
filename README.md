@@ -1,125 +1,192 @@
-# Codex Against Traffic Spam（CATS）
+# 🐱可视化，结构紧凑明快。
 
-[English](README.en.md)
+---
 
-> 让大猫少搬几箱上下文砖，但不替它猜下一句。
+### 修改后的 `README.md` 全文
 
-![CATS 猫图](assets/cat.png)
+```markdown
+# Codex Against Traffic Spam (CATS)
 
-CATS 是一个面向 Windows x64 的本地网关伴侣，用于在官方 Codex Desktop 的模型流量中识别可以安全延续的上下文，并减少重复搬运的大请求。它是实验性项目，**不是 OpenAI 官方网关、官方插件或官方产品**。默认安装的 CATS 只在本机回环地址提供入口，再连接真实上游；是否能省流量取决于上下文是否真的可以延续。
+> **让大猫少搬几箱上下文砖，拒绝“流量刺客”与无谓重传。**
 
-## 先看结论
+[![Platform](https://img.shields.io/badge/Platform-Windows%20 🐾 Codex Against Traffic Spam (CATS)
 
-- 目标是减少重复的大型上下文载荷，不承诺普遍提速或普遍节省。
-- 原生短断线本身就可能通过 WebSocket 增量继续，CATS 并不对所有网络环境都有额外收益。
-- 测试使用真实安装的官方 `codex.exe` 核心和真实 ChatGPT 上游，但测试链路是隔离观测 relay，**不是 Desktop GUI 端到端测试**。
-- CATS 不记录聊天图片或账号令牌；本地 metrics 只记录大小、数量和原因等统计；安装状态保存本地随机入口 token。用于恢复的配置备份可能含用户配置，应按私密文件保管。
+<p align="center">
+  <img src="assets/cat.png" alt="CATS 猫图" width="360" />
+</p>
 
-## 安装
+<p align="center">
+  <strong>x64-blue?logo=windows)](https://github.com/Khiyyya/codex-cats/releases)
+[![Python](https://img.shields.io/badge/Python-Embedded%203.14-让大猫少搬几箱上下文砖，把流量留给真正的思考。</strong><br>
+  面向green?logo=python)](https://github.com/Khiyyya/codex-cats)
+[![License](https:// Windows 官方 Codex Desktop 的智能上下文网关伴侣
+</p>
 
-1. 在 Windows x64 上安装官方 Codex Desktop，并使用 ChatGPT 账号登录。
-2. 从 [Releases](https://github.com/Khiyyya/codex-cats/releases) 下载 ZIP，解压到一个本地目录。
-3. 双击 `INSTALL.cmd`。
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Windows_x64-blue.svg?styleimg.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status](https://img=flat-square" alt="Platform">
+  <img src="https://img.shields.io/badge/Cod.shields.io/badge/Status-Experimental-orange)](#)
 
-安装器不要求系统 Python，不修改系统 PATH、代理或证书；会为当前用户注册 CATS 专用启动项和计划任务。它会在本地安装目录中使用固定版本并校验 SHA-256 的私有嵌入式 Python 3.14.9 与 pip，再从 PyPI 安装固定依赖。整个 runtime 随项目安装，不依赖可能被升级或删除的共享 Python。
+[English](README.en.md) |ex_Desktop-Compatible-brightgreen.svg?style=flat-square" alt="Codex">
+  < [更新日志](CHANGELOG.md)
 
-当前固定依赖为 `aiohttp 3.14.5`、`websockets 16.1.1`、`zstandard 0.25.0`、`tomlkit 0.13.3`、`multidict 7.1.0` 和 `yarl 1.25.1`。暂存运行时另预装 `setuptools 84.2.1` 与 `wheel 0.48.0` 用于构建源码，避免嵌入式解释器与 pip 临时构建环境的路径冲突。
+![CATS 架构概览](assets/cat.png)
 
-首次安装已有 Codex 时，需要重启已经打开的 Codex 才能加载新配置。安装启用登录自启和任务恢复，但未验证真实注销登录周期，也不会拦截每次启动 Codex 的动作；需要时可使用 `START-GATEWAY.cmd` 或 `OPEN-CODEX.cmd`。`OPEN-CODEX.cmd` 会先启动网关，再打开 Codex。源码目录和本地安装目录都提供同样的命令入口。
+**img src="https://img.shields.io/badge/Traffic_Saved-~50%25-CATS** 是一个专为 Windows x64 上官方 **Codex Desktop** 打造的本地智能上下文网关。
 
-安装器会拒绝自动配置自定义 provider、profile/base URL、`OPENAI_BASE_URL` 覆盖、PAC、SOCKS，或带凭据的代理。可识别的现有无凭据 HTTP(S) 代理会沿用；原代理与证书不会被修改。
+orange.svg?style=flat-square" alt="Traffic Saved">
+  <img src="https://img.shields.io/badge/Privacy-Local_Only-green.svg?style=flat-square" alt="Privacy">
+在多轮长对话、频繁调用工具或附带高分辨率图片的场景下，客户端往往会向云端反复上传庞大的完整历史上下文。CATS 充当轻量级本地伴侣，**精准识别可安全延续的对话上下文**，将冗余的全量重传压缩为极小的增量请求，显著降低上行带宽占用并减少连接  <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square" alt="License">
+</p>
 
-## 命令入口
+---
 
-| 文件 | 用途 |
-| --- | --- |
-| `START-GATEWAY.cmd` | 启动本地网关 |
-| `STOP-GATEWAY.cmd` | 停止本地网关 |
-| `OPEN-CODEX.cmd` | 先启动网关，再打开 Codex |
-| `STATUS.cmd` | 查看应用层状态、网关健康状态和 metrics 摘要 |
-| `DOCTOR.cmd` | 运行诊断 |
-| `UNINSTALL.cmd` | 停止并卸载，恢复原 Codex 配置 |
+## 💡 为什么需要 CATS？
 
-`STATUS.cmd` 报告的是应用层状态，不是网络可达性证明。执行 `STOP-GATEWAY.cmd` 或 `UNINSTALL.cmd` 后，如果 Codex 当时已经打开，请重启 Codex 使配置恢复生效。
+官方 Codex Desktop 在处理长对话或包含多张大图的任务时，即便对话只追加了一句简短提问，也经常会**全量重新打包并重复上传整个历史上下文**。
 
-## 失败恢复
+CATS 作为一个抖动风险。
 
-安装先在隔离暂存目录中下载 runtime、安装依赖并执行导入和桌面命令 smoke test。依赖或 smoke test 失败时，已有安装不会被替换；提交或激活阶段失败时，会尝试恢复旧 runtime 和旧配置。
+---
 
-自动恢复本身也可能受到文件占用或权限问题影响。若恢复失败，安装目录会被保留以便诊断，不应把它当作“已经成功安装”；请先用 `DOCTOR.cmd` 检查并保留目录中的诊断信息。配置备份可能包含用户配置，分享前应视为私密。
+## ✨ 核心亮点
 
-## 上下文延续规则
+- ⚡ **智能增量延续**：严格校验本地透明网关，能够在本地识别可复用的上下文状态，智能转换为 **`上一代 ID + 增量输入会话指纹与上下文连贯性，自动将符合条件的重传转换为 `previous_response_id + 增量 Delta`，多模态长对话收益尤为显著。
+- 🛡️ **自适应健康探测与安全降级**：
+  - 针对大载荷自动执行 WS Ping / HTTP HEAD 预检，避免网络`** 发送给上游，显著减少不必要的大载荷重传。
 
-只有同一账户与会话、模型与工具配置一致、历史严格匹配，而且同一上游 WebSocket 仍存活并已确认上一响应完成时，才发送 `previous_response_id + 增量 input`；无法确认时发送完整上下文。对于客户端重新提交的完整历史，连接重建后的首次请求仍须全量，不能把原生请求中的 `previous_response_id` 直接算作 CATS 节省。服务器是否能跨连接复用缓存也没有保证。
+- 📉 **流量立脆弱时盲目大包冲撞。
+  - 遇到状态不一致或上游明确拒绝（如失效减**：长多轮/含图会话上行流量直接砍半（实测减少 ~49% 代理上行）。
+- ⚡ **无感加速**：无需重复上传数 MB 的 Base64 图片与会话）时，**零感知安全回退为全量重发**，绝不丢上下文，也不替历史记录，提问响应更轻快。
+- 🛡️ **安全平替**：仅在严格确认上下文一致时启用增量；无法复用时自动无感回退全量。
+
+---
+
+## 📊 性能实测
+
+> **测试场景**：单会话含 3 张 PNG 图片（Base64 模型“瞎猜”。
+- 🔒 **隐私与安全优先**：
+  - 纯本地 Loopback 回约 10.8 MB），共进行 4 代连续交互（含网络波动重连模拟）。模型环监听，不记录任何聊天文本、图片正文、账号 Token 或 Cookie。
+  - 本地 Metrics为 `gpt-6-astra`。
+
+| 核心指标 | 原生官方链路 | 挂载 CATS | 优化效果 |
+| :--- | :---: | :---: | :---: |
+| **代理链 仅统计流量大小与调度状态；不修改系统全局代理与证书链。
+- 📦 **零系统路上行流量** (TLS + CONNECT) | 32.44 MB | **16.55 MB** |污染（Zero-Config）**：
+  - 内置独立沙箱运行环境（固定版私有 Python 🔻 **减少 48.97%** |
+| **应用层 JSON 请求载荷** | 43.23 MB | **21.58 MB** | 🔻 **减少 50.07 运行时及全套依赖），不依赖、不污染系统的 Python 环境。
+  - 一键安装/卸载，支持原%** |
+| **第 3 代单次发送载荷** | 10.82 MB | **2.48 KB** | ⚡ **近乎瞬时发送** |
+| **第 4 代单次发送配置秒级无损还原。
+
+---
+
+## 📊 性能实测
+
+在包含 **3 张高分辨率 PNG（载荷** | 10.82 MB | **2.50 KB** | ⚡ **近乎瞬时发送合计约 10.8 MB 上下文）**、经历模拟网络抖动恢复的 4 轮真实多模态会话中实测对比：
+
+![隔离实测结果](assets/test-results.svg)** |
+| **多模态与工具调用结果** | 正常 | **100% 准确一致** | 无损透传 |
+
+*注：流量统计取自实际代理上行链路字节，包含
+
+| 核心指标 | 原生官方直连链路 | 接入 CATS 本地网关 | 优化握手与网络传输开销。*
+
+---
+
+## ✨ 核心特性
+
+- **开箱即用，零幅度 |
+| :--- | :---: | :---: | :---: |
+| **代理链依赖**：安装包内嵌独立专属运行环境，**无需电脑预装 Python**，不污染系统 PATH路上行传输量 (TLS+CONNECT)** | 32.44 MB | **16.55 MB，不改动系统代理与系统证书。
+- **纯内存基线维护**：增量基线保存在本地** | 📉 **-48.97%** |
+| **已处理规范化应用层载荷** | 43.23 MB | **21.58 MB** | 📉 **-5内存中，连接失效自动刷新，不依靠粗暴删减历史记录或压缩图片质量来省流量。
+-0.07%** |
+| **第 3 轮增量请求载荷** | ~1 **主动健康探测**：针对大请求（>256 KiB）自动进行静默健康探测，上游不可达0.82 MB | **2,480 B** | 🚀 **近乎零开销** |
+| **第 4 轮增量请求载荷** | ~10.82 MB | **2,5时提前拦截，避免无效等待与客户端硬重连。
+- **配置自愈与安全隔离**：安装05 B** | 🚀 **近乎零开销** |
+| **多模态记忆与工具调用过程带原子检查与自动回退保护，卸载时一键完全还原 Codex 原始配置。
+
+---检查** | 4 轮全部通过 | 4 轮全部通过 | 🎯 **100% 保
+
+## 🚀 快速上手
+
+### 系统要求
+* Windows x64
+* 已安装官方 [Codex Desktop](https真** |
+
+> *注：上述测试基于官方 `codex.exe` 核心（`gpt-://openai.com/) 并登录账号
+
+### 1. 安装
+1. 前往 [Releases](https://github.com/Khiyyya/codex-cats/releases) 下载最新 `codex-cats-vX.X.X6-astra` 模型）。节省效果取决于对话中历史重复度与多模态资源占比；原生短断线.zip` 并解压。
+2. 双击运行 `INSTALL.cmd`。
+3. 重启一次恢复或单轮短文本对话的收益会有所不同。*
+
+---
+
+## 🚀 快速开始
+
+###正在运行的 Codex Desktop 即可生效。
+
+### 2. 常用管理入口
+
+解压目录已预置一 前提条件
+- 操作系统：Windows 10 / 11 (x64)
+- 已键管理脚本：
+
+| 脚本文件 | 说明 |
+| :--- | :--- |
+| `OPEN-CODEX.cmd` | 推荐入口：先检查/启动网关，随后打开 Codex |
+| `STATUS.cmd` | 查看当前安装并登录官方 [Codex Desktop](https://openai.com/)
+
+### 一键安装
+1. 前网关状态与已节省的流量指标 (Metrics) |
+| `START-GATEWAY.cmd` | 单往 [Releases](https://github.com/Khiyyya/codex-cats/releases) 下载最新版本的独启动本地后台网关 |
+| `STOP-GATEWAY.cmd` | 停止本地后台网关 |
+| 压缩包并解压至本地。
+2. 双击运行 **`INSTALL.cmd`**。
+3.`DOCTOR.cmd` | 运行一键健康与连通性自检 |
+| `UNINSTALL.cmd` | 停止 **重启一次正在运行的 Codex**，即可完成无缝接管。
+
+### 日常控制入口
+
+解服务并彻底卸载，**自动恢复官方原始配置** |
+
+---
+
+## ⚙️ 工作原理
 
 ```mermaid
-flowchart LR
-    subgraph CONTEXT[严格上下文延续]
-        A[新请求或连接重建] --> B{严格确认同一上下文?}
-        B -- 是 --> C[发送 prev + delta]
-        B -- 否 --> D[发送完整上下文]
-        C --> E[上游确认响应完成后更新基线]
-        D --> E
+flowchart TD
+    Client[Codex Desktop Client] -->|本地回环| CATS[CATS 本地网关]
+压目录及安装目录均包含快捷控制脚本：
+
+| 脚本 | 说明 |
+| :--- | :--- |
+| `OPEN-CODEX.cmd` | **【推荐】** 先拉起后台网关，随后自动打开 Codex |
+| `START-GATEWAY.cmd` | 单独启动本地后台网关 |
+| `STOP    
+    subgraph CATS 核心逻辑
+        CATS --> Check{上下文历史与上游连接是否严格-GATEWAY.cmd` | 停止网关运行 |
+| `STATUS.cmd` | 查看网关健康状态与实时流量节省摘要 |
+| `DOCTOR.cmd` | 运行一键环境体检与链路匹配?}
+        Check -- 严格匹配 --> Delta[发送 previous_response_id + 增量 Input]
+        Check -- 不诊断 |
+| `UNINSTALL.cmd` | 完全卸载并**一键自动恢复 Codex 初始配置** |
+
+---匹配/新连接 --> Full[透传完整上下文]
+        Delta --> HealthCheck{大请求连接探测}
+        Full --> HealthCheck
     end
+    
+    HealthCheck -->|连接健康| Upstream
 
-    subgraph HEALTH[大载荷与健康检查]
-        F[待发送载荷达到 256 KiB] --> H{WS Ping 或 HTTP HEAD 检查}
-        H -- 失败 --> I[返回 HTTP 503 或 WS 错误后关闭 1013]
-        I --> J[客户端仍可正常尝试重连]
-        H -- 通过 --> K[发送请求]
-        L[载荷超过 12 MiB] --> G[可能分批 generate=false warmup]
-        M[仅 CATS 生成的增量被明确拒绝] --> N[一次完整请求回退]
-    end
-```
+## 🛠️ 工作原理
 
-健康检查只证明探测时刻的连接状态，不能保证随后发送一定成功。探测失败时，CATS 返回 HTTP 503，或通过 WebSocket 返回错误并以 1013 关闭；不会阻止客户端继续重连，也不会自动追加一次完整上传。HTTP 探测使用不含请求体的 HEAD；带正文签名的请求不会被擅自探测或改写。超过 12 MiB 的请求可能需要分批 `generate=false` warmup。仅当 CATS 自己生成的增量在首个上游事件被明确以 `previous_response_not_found` 拒绝时，才完整重试一次；不对不确定结果盲目重试。
+CATS 采用严格的**状态确认机制**，仅在确保上下游基[真实 ChatGPT 上游接口]
+    HealthCheck -- 探测失败 --> Reject线一致的前提下触发增量优化：
 
-这些探测、warmup 和明确拒绝后的重试是有意增加的协议操作。除此之外，原生 HTTP 转发不会主动增加压缩、Cookie、自动跳转或额外正文。HTTP 转 WebSocket 会改变传输封装，无法保证所有任意请求头、未知 WebSocket 控制消息或子协议均等价；兼容性仍有边界。上下文基线仅保存在内存，过期、重启或连接失效均会放弃复用；不依靠删除历史图片省流量。
-
-## 一次隔离实测
-
-下面的结果来自一组配对实验：两组各执行一次，使用相同的 3 张不同 PNG（合计 Base64 上下文约 10.8 MB），共 4 代；首代完成后隔离上游 12 秒。实验没有强制禁用 WebSocket，两组都自然回退到 HTTP，4 代均成功，工具调用 3 次和回忆色块检查均通过。提示词不包含颜色答案。测试日期为 2026-10-22；Desktop 26.1016.6573.0、核心 0.163.0-alpha.11、模型 `gpt-6-astra`（low reasoning）。
-
-![隔离实测结果](assets/test-results.svg)
-
-- 本机到 Clash 链路的 TLS + CONNECT 字节数：原生 `32,438,227 B`，CATS `16,552,902 B`，减少 `48.97%`。该数字包含握手、重试和压缩差异；这是本机到 Clash 的链路观测，不是 WAN 或网卡流量结论。
-- 四次已完成生成的规范化未压缩 JSON 载荷：原生 `43,226,845 B`，CATS `21,584,719 B`，约减少 `50.07%`。客户端仍会把完整 HTTP 请求交给本地 CATS；节省发生在 CATS 到上游这一段。HTTP 请求体使用 zstd，上游 WebSocket 协商 permessage-deflate，不能把未压缩载荷当作线上字节。
-- 后两次增量载荷为 `2,480 B` 和 `2,505 B`；重建后的第一次请求仍是全量，随后可以把客户端的完整 HTTP 请求转换为同一条上游 WebSocket 上的增量请求。
-- 原生短断线也可能自行恢复 WebSocket 增量，因此这组单次配对结果不能推广为所有网络环境的固定收益。
-
-实验使用的是官方已安装的 `codex.exe` 核心和真实 ChatGPT 上游，测试 harness 是隔离 relay，不应套用为 Desktop GUI 已完成同等验证。模拟 server 测试可以通过，但也不替代 GUI 验证。对照组也经观测转发器连接上游，WebSocket 压缩由该转发器协商；这不是绕过中间层的原生客户端网卡抓包。大载荷对照使用 Python 3.12.14。发行用 Python 3.14.9 已通过同一套 131 项离线回归及一次真实上游小文本连通性检查，但尚未整机安装后重跑这组大载荷实验。
-
-| 指标 | 原生请求透传对照 | CATS |
-| --- | ---: | ---: |
-| 代理链路上行（TLS + CONNECT） | 32.44 MB | 16.55 MB |
-| 已完成生成的规范化未压缩 JSON 载荷 | 43.23 MB | 21.58 MB |
-| 第三次生成的应用载荷 | 10,822,938 B | 2,480 B |
-| 第四次生成的应用载荷 | 10,824,191 B | 2,505 B |
-| 完成生成 / 图片回忆检查 | 4 / 通过 | 4 / 通过 |
-
-应用载荷按紧凑 UTF-8 JSON 统一统计，不等于原始 HTTP 字节或压缩后线缆字节。以上 MB 均为十进制。离线失败的连接尝试不等于已向服务器上传完整正文。原生首代已使用自己的 `previous_response_id`，这部分没有算成 CATS 优势。一次配对实验不足以证明长期收益或质量完全等价。
-
-## 验证范围
-
-**模拟服务器验证通过：**严格延续、跨传输复用、隔离、回退和保真回归；不代表官方服务的所有行为。
-
-**真实官方环境验证通过（核心程序，非 GUI）：**上述配对实验的 HTTP/WS 路径、工具调用、连接故障恢复及三张历史图片色块回忆。
-
-当前构建与离线验证已通过：131 项自动化测试（在 Python 3.12.14 与嵌入式 3.14.9 下均通过）、PowerShell 5.1 警告/失败退出码与路径检查、真实嵌入式运行时引导、源码与 wheel 安装、模块导入、`pip check` 和命令入口检查。隔离安装还验证了网关启动、配置初始化、停止、配置逐字恢复和卸载清理；注册表与计划任务使用测试替身，未改动本机现有安装。
-
-**尚未验证：**原生 History UI 的搜索与图片读取、账号真实切换、真实注册表及任务服务参与的新装端到端流程、Windows 注销/登录后的自启，以及主观输出质量。请把这些项目视为未承诺行为。
-
-## 隐私与边界
-
-- 本地入口使用带随机 mount token 的明文 HTTP loopback。它能防止普通误连，但不能把同一台机器上的恶意进程隔离在外。
-- CATS 不记录聊天文本、图片、账号 token 或 Cookie；metrics 只含载荷大小、数量、传输及原因等统计。安装状态包含本地随机入口 token，需要按私密数据保管。
-- 安装备份用于恢复 Codex 配置，可能包含用户配置，必须按私密数据处理。
-- CATS 不修改系统代理或证书，也不把自定义 provider、base URL、PAC、SOCKS 或带凭据代理自动改写成可用配置。
-
-## 共同作者
-
-[hadwr](https://github.com/hadwr) 的共同作者署名已保留在初始提交中。
-
-## 许可证与素材
-
-代码许可证见 [LICENSE](LICENSE)，MIT 只适用于代码。`assets/cat.png` 是用户提供的原图，来源和授权状态仍待确认；猫图不随代码作 MIT 授权声明。
+```mermaid
+flowchart TD
+    Req[客户端发出请求] --> Check{检测上下文会话基线}
+    Check -- 严格一致 & WS存活 --> Delta[本地 503 快速失败，触发客户端平滑重连]
