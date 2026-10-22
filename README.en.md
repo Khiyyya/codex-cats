@@ -17,21 +17,18 @@
   <a href="#installation-and-use">Installation and use</a>
 </p>
 
-CATS is an experimental local gateway companion for the official Windows Codex Desktop. It reuses server-confirmed context to reduce repeated uploads of historical images and messages.
+CATS is an experimental local gateway companion for the official Windows Codex Desktop. It combines server-confirmed context reuse with connection probes to reduce repeated uploads of multimodal context and messages, saving bandwidth and proxy traffic.
 
 ## Why CATS?
 
-When a long conversation resends its complete history, the same Base64 images consume proxy traffic again. CATS applies one continuation policy to HTTP and WebSocket context requests. Matching accounts, sessions, configuration and history can use `previous_response_id + incremental input`; other requests send their complete input to establish a new baseline.
+When a long conversation resends its complete history, the same multimodal context consumes proxy traffic again. CATS applies one continuation policy to HTTP and WebSocket context requests. Matching accounts, sessions, configuration and history can use `previous_response_id + incremental input`; other requests send their complete input to establish a new baseline.
 
 Reconnections, transport fallback, session recovery and other events can trigger repeated uploads of historical images and file content. CATS handles these repeated-upload scenarios across HTTP and WebSocket, evaluating request content against confirmed server context. Eligible requests send deltas, and larger payloads receive a connection check before sending.
 
 ## Capabilities
 
-- **Automatic context continuation:** HTTP and WebSocket share strict continuation checks against completed context on the same live upstream connection.
-- **Large-payload connection checks:** WS Ping or HTTP HEAD probes run before larger sends. Failed probes return a retry signal so the client can reconnect.
-- **Complete-input fallback:** rebuilt connections and changed baselines send full history. An explicitly rejected continuation reference receives one protocol-defined full retry.
-- **Automatic runtime setup:** the installer downloads and verifies a dedicated Python runtime, installs dependencies for the current user, discovers Codex and initializes integration.
-- **Existing proxy support:** direct connections and detected credential-free HTTP(S) proxies work with the existing system proxy and certificate configuration preserved.
+- **Automatic context continuation:** Codex can trigger unnecessary full-context uploads in some situations. CATS applies the same strict continuation checks to HTTP and WebSocket requests, reusing completed context on the same live upstream connection.
+- **Large-payload connection checks:** unstable connections can lead to repeated uploads during retries that still consume proxy traffic. CATS runs WS Ping or HTTP HEAD probes before larger sends. Failed probes return a retry signal so the client can reconnect.
 
 ## Measurement: about 10.8 MB of image context
 
@@ -39,19 +36,12 @@ A paired experiment used **three different PNGs**, totaling about **10.8 MB of B
 
 ![CATS traffic comparison](assets/test-results.svg)
 
-| Metric | Native requests via relay | CATS | Upload reduction |
+| Metric | Native requests via relay | CATS | **Upload reduction** |
 | --- | ---: | ---: | ---: |
-| Observed proxy-path upload (TLS + CONNECT) | 32.44 MB | 16.55 MB | 48.97% |
-| Canonical JSON payload for completed generations | 43.23 MB | 21.58 MB | 50.07% |
-| Third-generation JSON payload | 10,822,938 B | 2,480 B | 99.98% |
-| Fourth-generation JSON payload | 10,824,191 B | 2,505 B | 99.98% |
-
-### Measurement scope
-
-- **Link bytes:** counted on the local-machine-to-Clash observation path, including TLS, CONNECT, handshakes, retries and compression differences. Exact totals: `32,438,227 B → 16,552,902 B`.
-- **Application payload:** compact UTF-8 JSON, totaling `43,226,845 B → 21,584,719 B`. HTTP request bodies used zstd; upstream WebSocket negotiated permessage-deflate. MB values are decimal.
-- **Control path:** both arms reached the real ChatGPT upstream through an observation forwarder. The control arm forwarded native requests, with WebSocket compression negotiated by the forwarder. The gateway used Python 3.12.14; official core `0.163.0-alpha.11`, Desktop `26.1016.6573.0`, model `gpt-6-astra` with low reasoning.
-- **Where savings occur:** the client still submits complete HTTP requests to local CATS. After the rebuilt upstream connection receives a full request and establishes a baseline, two subsequent requests become deltas. Savings occur between CATS and the upstream.
+| Observed proxy-path upload (TLS + CONNECT) | 32.44 MB | 16.55 MB | **48.97%** |
+| Canonical JSON payload for completed generations | 43.23 MB | 21.58 MB | **50.07%** |
+| Third-generation JSON payload | 10,822,938 B | 2,480 B | **99.98%** |
+| Fourth-generation JSON payload | 10,824,191 B | 2,505 B | **99.98%** |
 
 ## How it works
 
