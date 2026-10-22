@@ -14,7 +14,6 @@
 
 <p align="center">
   <a href="README.en.md">English</a> ·
-  <a href="https://github.com/Khiyyya/codex-cats/releases">下载测试版</a> ·
   <a href="#安装与使用">安装与使用</a>
 </p>
 
@@ -24,7 +23,7 @@ CATS 是面向 Windows 官方 Codex Desktop 的实验性本地网关伴侣，通
 
 长会话中的完整历史重发，会让相同的 Base64 图片再次占用代理流量。CATS 统一处理 HTTP 与 WebSocket 上下文请求，在账户、会话、配置和历史严格匹配时，把完整请求转换为 `previous_response_id + 增量 input`；其他情况完整转发输入，建立新的上下文基线。
 
-Codex 自身已具备 WebSocket 增量能力。CATS 进一步覆盖了实测中的一种路径：客户端重连后回退到 HTTP，并持续提交完整历史；CATS 通过自己维护的上游 WebSocket，为后续请求继续复用上下文。
+断线重连、传输回退、会话恢复等情况都可能触发历史图片与文件内容的重复上行。CATS 面向这些重复上传场景，统一根据请求内容与已确认的服务器上下文判断复用，支持 HTTP 与 WebSocket；满足延续条件时发送增量，较大载荷发送前检查连接状态。
 
 ## 核心能力
 
@@ -36,18 +35,16 @@ Codex 自身已具备 WebSocket 增量能力。CATS 进一步覆盖了实测中�
 
 ## 实测：约 10.8 MB 图片上下文
 
-2026-10-22 的一组配对实验使用 **3 张不同 PNG**，合计 Base64 上下文约 **10.8 MB**。两组各执行 4 次生成，首代完成后将隔离上游链路中断 12 秒，再继续对话和工具调用。
-
-两组均自然回退到 HTTP，完成 3 次顺序工具调用。
+使用 **3 张不同 PNG**，合计 Base64 上下文约 **10.8 MB**，对比原生请求透传与 CATS 在连接中断、恢复及后续请求中的上行流量，两组各完成 4 次生成。
 
 ![CATS 实测流量对比](assets/test-results.svg)
 
-| 指标 | 原生请求透传对照 | CATS | 本次变化 |
+| 指标 | 原生请求透传对照 | CATS | 流量减少 |
 | --- | ---: | ---: | ---: |
-| 代理观测链路上行（TLS + CONNECT） | 32.44 MB | 16.55 MB | 减少 48.97% |
-| 已完成生成的规范化 JSON 载荷 | 43.23 MB | 21.58 MB | 减少 50.07% |
-| 第三次生成的 JSON 载荷 | 10,822,938 B | 2,480 B | 增量延续 |
-| 第四次生成的 JSON 载荷 | 10,824,191 B | 2,505 B | 增量延续 |
+| 代理观测链路上行（TLS + CONNECT） | 32.44 MB | 16.55 MB | 48.97% |
+| 已完成生成的规范化 JSON 载荷 | 43.23 MB | 21.58 MB | 50.07% |
+| 第三次生成的 JSON 载荷 | 10,822,938 B | 2,480 B | 99.98% |
+| 第四次生成的 JSON 载荷 | 10,824,191 B | 2,505 B | 99.98% |
 
 ### 数据口径
 
@@ -91,46 +88,30 @@ HTTP 转 WebSocket 会转换传输封装；其他原生端点保留原请求路�
 
 ## 安装与使用
 
-### 接入条件
+**必须项**：Windows x64、PowerShell 5.1+、Git；官方 Codex Desktop 已通过 ChatGPT 登录，使用默认 OpenAI 提供方；网络采用直连或无凭据 HTTP(S) 代理。
 
-- Windows x64，已安装官方 Codex Desktop，并使用 ChatGPT 账号登录。
-- 使用默认 OpenAI 提供方配置；安装器检查现有配置后接入。
-- 使用直连，或无凭据的 HTTP(S) 代理。
+在 PowerShell 中执行：
 
-### 安装
+```powershell
+git clone https://github.com/Khiyyya/codex-cats.git
+cd codex-cats
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows.ps1 -Action install
+```
 
-1. 从 [Releases](https://github.com/Khiyyya/codex-cats/releases) 下载 `codex-cats-12.2.0.zip` 并解压。
-2. 双击 `INSTALL.cmd`。安装器会准备私有运行时、检查依赖、识别 Codex，并配置网关及当前用户启动项。
-3. 重启已经打开的 Codex，使接入配置生效。
+安装器自动准备独立 Python 环境、识别 Codex、配置网关和当前用户登录自启。安装后重启 Codex。
 
-安装完成后，可通过 `OPEN-CODEX.cmd` 先启动网关，再打开 Codex。安装器还会配置当前用户登录启动项与独立计划任务。
+### 管理入口
 
-<details>
-<summary>运行时与依赖</summary>
+在项目目录或安装目录中运行对应文件：
 
-安装器自动下载并校验 Python 3.14.9 与 pip 26.2.2，在暂存运行时中准备构建工具和项目依赖。
-
-| 类别 | 固定版本 |
+| 入口 | 功能 |
 | --- | --- |
-| 构建工具 | setuptools 84.2.1、wheel 0.48.0 |
-| 网关依赖 | aiohttp 3.14.5、websockets 16.1.1、zstandard 0.25.0 |
-| 配置与 URL 处理 | tomlkit 0.13.3、multidict 7.1.0、yarl 1.25.1 |
-
-源码在已准备的暂存运行时内构建。依赖安装和启动检查通过后，再进入运行时替换及接入配置阶段。
-
-</details>
-
-### 日常管理
-
-解压目录和安装目录均提供以下入口：
-
-| 脚本 | 功能 |
-| --- | --- |
+| `INSTALL.cmd` | 安装或更新 |
 | `OPEN-CODEX.cmd` | 启动网关并打开 Codex |
 | `START-GATEWAY.cmd` | 启动网关并启用接入 |
 | `STOP-GATEWAY.cmd` | 恢复接入配置并停止网关 |
-| `STATUS.cmd` | 查看网关状态与应用层载荷统计 |
-| `DOCTOR.cmd` | 查看环境、启动及代理连通性诊断 |
-| `UNINSTALL.cmd` | 恢复接入配置、移除启动项并清理安装目录 |
+| `STATUS.cmd` | 查看状态与应用层载荷统计 |
+| `DOCTOR.cmd` | 检查环境、自启与代理连通性 |
+| `UNINSTALL.cmd` | 恢复配置、移除启动项并清理安装目录 |
 
-执行停止或卸载后，重启已经打开的 Codex，以加载恢复后的配置。配置恢复会处理 CATS 接管的配置项，并保留用户后续编辑。
+停止或卸载后，重启 Codex 以加载恢复后的配置。
