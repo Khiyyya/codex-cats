@@ -1,0 +1,325 @@
+{
+  "date": "2026-10-22",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "core": "codex-cli 0.163.0-alpha.10.2",
+  "desktop_version": "26.1013.40934",
+  "model": "gpt-6-astra",
+  "effort": "low",
+  "proxy_source": "environment",
+  "metric_boundary": "relay to existing HTTP proxy; CONNECT+TLS bytes queued; not WAN/NIC",
+  "observation_relay": true,
+  "forced_websocket_off": false,
+  "outage_seconds": 12,
+  "images": [
+    {
+      "color": "green",
+      "png_bytes": 2712665,
+      "sha256": "26387f8d494fa1e33776155f97a334f90dd82abd566fbd5f489dceeecb8e9f82"
+    },
+    {
+      "color": "blue",
+      "png_bytes": 2712468,
+      "sha256": "6a71fcdec0f629022e9fbfe5be95403186ecdcddcbd8fe4ef902f47fc55e8597"
+    },
+    {
+      "color": "red",
+      "png_bytes": 2712840,
+      "sha256": "c2c83d51bb4d8bfe027d4da0d36396d7ac55d62e43ba96d077164f8fcbd8a597"
+    }
+  ],
+  "image_base64_bytes": 10850698,
+  "arms": [
+    {
+      "mode": "native",
+      "scenario": "stable",
+      "repetition": 1,
+      "turns": [
+        {
+          "seconds": 13.658,
+          "status": "completed",
+          "answer": "READY",
+          "errors": [],
+          "valid": true
+        }
+      ],
+      "ingress": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 41566,
+          "input_items": 2,
+          "has_previous_response_id": false,
+          "is_warmup": true,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 10862103,
+          "input_items": 5,
+          "has_previous_response_id": true,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        }
+      ],
+      "upstream": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 41566,
+          "input_items": 2,
+          "has_previous_response_id": false,
+          "is_warmup": true,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": true
+        },
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 10862103,
+          "input_items": 5,
+          "has_previous_response_id": true,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": true
+        }
+      ],
+      "relay_errors": [],
+      "proxy_upload_bytes": 8385061,
+      "proxy_download_bytes": 1233222,
+      "connects": 3,
+      "blocked_connects": 0,
+      "tool_calls": [],
+      "all_valid": true
+    },
+    {
+      "mode": "cats",
+      "scenario": "stable",
+      "repetition": 1,
+      "turns": [
+        {
+          "seconds": 16.254,
+          "status": "completed",
+          "answer": "READY",
+          "errors": [],
+          "valid": true
+        }
+      ],
+      "ingress": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 41566,
+          "input_items": 2,
+          "has_previous_response_id": false,
+          "is_warmup": true,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 10902107,
+          "input_items": 7,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 10902107,
+          "input_items": 7,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        }
+      ],
+      "upstream": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "upstream",
+          "canonical_bytes": 10902107,
+          "input_items": 7,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        }
+      ],
+      "relay_errors": [
+        {
+          "phase": "http",
+          "exception": "ClientConnectionResetError",
+          "turn": 1
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 1
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 1
+        }
+      ],
+      "gateway_metrics": [
+        {
+          "time": "2026-10-22T07:24:21.860520+00:00",
+          "reason": "http_native_endpoint",
+          "application_bytes_before": 0,
+          "application_bytes_after": 0,
+          "bytes_saved": 0,
+          "input_items_before": 0,
+          "input_items_after": 0,
+          "ingress": "http",
+          "upstream": "http",
+          "received_body_bytes": 0,
+          "content_encoding": "identity",
+          "images_before": null,
+          "images_after": null,
+          "warmup_count": 0,
+          "ws_compression": null
+        },
+        {
+          "time": "2026-10-22T07:24:41.845091+00:00",
+          "reason": "no_live_baseline",
+          "application_bytes_before": 10902107,
+          "application_bytes_after": 10902107,
+          "bytes_saved": 0,
+          "input_items_before": 7,
+          "input_items_after": 7,
+          "ingress": "websocket",
+          "upstream": "websocket",
+          "received_body_bytes": 10902107,
+          "content_encoding": "other",
+          "images_before": 3,
+          "images_after": 3,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        }
+      ],
+      "proxy_upload_bytes": 8386904,
+      "proxy_download_bytes": 620388,
+      "connects": 7,
+      "blocked_connects": 0,
+      "tool_calls": [],
+      "all_valid": true
+    }
+  ]
+}

@@ -1,0 +1,1520 @@
+{
+  "date": "2026-10-22",
+  "measurement_version": 2,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "core": "codex-cli 0.163.0-alpha.10.2",
+  "desktop_version": "26.1013.40934",
+  "model": "gpt-6-astra",
+  "effort": "low",
+  "proxy_source": "environment",
+  "metric_boundary": "relay to existing HTTP proxy; CONNECT+TLS bytes queued; not WAN/NIC",
+  "observation_relay": true,
+  "forced_websocket_off": false,
+  "outage_seconds": 12,
+  "images": [
+    {
+      "color": "green",
+      "png_bytes": 2712665,
+      "sha256": "26387f8d494fa1e33776155f97a334f90dd82abd566fbd5f489dceeecb8e9f82"
+    },
+    {
+      "color": "blue",
+      "png_bytes": 2712468,
+      "sha256": "6a71fcdec0f629022e9fbfe5be95403186ecdcddcbd8fe4ef902f47fc55e8597"
+    },
+    {
+      "color": "red",
+      "png_bytes": 2712840,
+      "sha256": "c2c83d51bb4d8bfe027d4da0d36396d7ac55d62e43ba96d077164f8fcbd8a597"
+    }
+  ],
+  "image_base64_bytes": 10850698,
+  "arms": [
+    {
+      "mode": "cats",
+      "scenario": "outage",
+      "repetition": 1,
+      "turns": [
+        {
+          "seconds": 32.171,
+          "status": "completed",
+          "answer": "READY",
+          "errors": [],
+          "valid": true
+        },
+        {
+          "seconds": 26.856,
+          "status": "completed",
+          "answer": "{\"color\":\"blue\",\"probe_value\":775}",
+          "errors": [
+            {
+              "retrying": true,
+              "code": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              }
+            },
+            {
+              "retrying": true,
+              "code": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              }
+            },
+            {
+              "retrying": true,
+              "code": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              }
+            },
+            {
+              "retrying": true,
+              "code": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              }
+            },
+            {
+              "retrying": true,
+              "code": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": 503
+                }
+              }
+            }
+          ],
+          "color_correct": true,
+          "tool_correct": true,
+          "valid": true
+        },
+        {
+          "seconds": 14.12,
+          "status": "completed",
+          "answer": "{\"color\":\"green\",\"probe_value\":738}",
+          "errors": [],
+          "color_correct": true,
+          "tool_correct": true,
+          "valid": true
+        }
+      ],
+      "ingress": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "ingress",
+          "canonical_bytes": 10901971,
+          "input_items": 7,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907084,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": false
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164038,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164038,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164038,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164038,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164038,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "received_body_bytes": 8164029,
+          "content_encoding": "zstd",
+          "http_status": 503,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": true,
+          "received_body_bytes": 8164029,
+          "content_encoding": "zstd",
+          "http_status": 200,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "ingress",
+          "canonical_bytes": 10907705,
+          "input_items": 12,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": true,
+          "received_body_bytes": 8164317,
+          "content_encoding": "zstd",
+          "http_status": 200,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 3,
+          "stage": "ingress",
+          "canonical_bytes": 10908709,
+          "input_items": 14,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": true,
+          "received_body_bytes": 8164471,
+          "content_encoding": "zstd",
+          "http_status": 200,
+          "response_encoding": "identity"
+        },
+        {
+          "transport": "http",
+          "turn": 3,
+          "stage": "ingress",
+          "canonical_bytes": 10909473,
+          "input_items": 16,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": true,
+          "received_body_bytes": 8164587,
+          "content_encoding": "zstd",
+          "http_status": 200,
+          "response_encoding": "identity"
+        }
+      ],
+      "upstream": [
+        {
+          "transport": "websocket",
+          "turn": 1,
+          "stage": "upstream",
+          "canonical_bytes": 10901971,
+          "input_items": 7,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "ws_request_header_x_openai_internal_codex_responses_lite",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id",
+            "x-codex-ws-stream-request-start-ms"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "http",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906940,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": null,
+          "completed": false,
+          "fallback_reason": "http_fallback_ws_unavailable",
+          "http_status": 503
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 10906951,
+          "input_items": 10,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        },
+        {
+          "transport": "websocket",
+          "turn": 2,
+          "stage": "upstream",
+          "canonical_bytes": 1998,
+          "input_items": 1,
+          "has_previous_response_id": true,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        },
+        {
+          "transport": "websocket",
+          "turn": 3,
+          "stage": "upstream",
+          "canonical_bytes": 10908720,
+          "input_items": 14,
+          "has_previous_response_id": false,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        },
+        {
+          "transport": "websocket",
+          "turn": 3,
+          "stage": "upstream",
+          "canonical_bytes": 1998,
+          "input_items": 1,
+          "has_previous_response_id": true,
+          "is_warmup": false,
+          "identity_present": true,
+          "metadata_keys": [
+            "mcp_attribution",
+            "root_turn_id",
+            "session_id",
+            "thread_id",
+            "turn_id",
+            "x-codex-installation-id",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "type": "response.create",
+          "completed": true,
+          "send_returned": true
+        }
+      ],
+      "relay_errors": [
+        {
+          "phase": "http",
+          "exception": "ClientConnectionResetError",
+          "turn": 1
+        },
+        {
+          "phase": "http",
+          "exception": "ClientConnectionResetError",
+          "turn": 1
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        },
+        {
+          "phase": "ws",
+          "exception": "ConnectionClosedError",
+          "turn": 2
+        }
+      ],
+      "gateway_metrics": [
+        {
+          "time": "2026-10-22T07:37:04.722448+00:00",
+          "reason": "http_native_endpoint",
+          "application_bytes_before": 0,
+          "application_bytes_after": 0,
+          "bytes_saved": 0,
+          "input_items_before": 0,
+          "input_items_after": 0,
+          "ingress": "http",
+          "upstream": "http",
+          "received_body_bytes": 0,
+          "content_encoding": "identity",
+          "images_before": null,
+          "images_after": null,
+          "warmup_count": 0,
+          "ws_compression": null
+        },
+        {
+          "time": "2026-10-22T07:37:07.574313+00:00",
+          "reason": "no_live_baseline",
+          "application_bytes_before": 10901971,
+          "application_bytes_after": 10901971,
+          "bytes_saved": 0,
+          "input_items_before": 7,
+          "input_items_after": 7,
+          "ingress": "websocket",
+          "upstream": "websocket",
+          "received_body_bytes": 10901971,
+          "content_encoding": "other",
+          "images_before": 3,
+          "images_after": 3,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        },
+        {
+          "time": "2026-10-22T07:37:30.331436+00:00",
+          "reason": "no_live_baseline",
+          "application_bytes_before": 10906951,
+          "application_bytes_after": 10906951,
+          "bytes_saved": 0,
+          "input_items_before": 10,
+          "input_items_after": 10,
+          "ingress": "http",
+          "upstream": "websocket",
+          "received_body_bytes": 8164029,
+          "content_encoding": "zstd",
+          "images_before": 3,
+          "images_after": 3,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        },
+        {
+          "time": "2026-10-22T07:37:34.431294+00:00",
+          "reason": "live_continuation",
+          "application_bytes_before": 10907716,
+          "application_bytes_after": 1998,
+          "bytes_saved": 10905718,
+          "input_items_before": 12,
+          "input_items_after": 1,
+          "ingress": "http",
+          "upstream": "websocket",
+          "received_body_bytes": 8164317,
+          "content_encoding": "zstd",
+          "images_before": 3,
+          "images_after": 0,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        },
+        {
+          "time": "2026-10-22T07:37:45.233349+00:00",
+          "reason": "no_live_baseline",
+          "application_bytes_before": 10908720,
+          "application_bytes_after": 10908720,
+          "bytes_saved": 0,
+          "input_items_before": 14,
+          "input_items_after": 14,
+          "ingress": "http",
+          "upstream": "websocket",
+          "received_body_bytes": 8164471,
+          "content_encoding": "zstd",
+          "images_before": 3,
+          "images_after": 3,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        },
+        {
+          "time": "2026-10-22T07:37:48.551435+00:00",
+          "reason": "live_continuation",
+          "application_bytes_before": 10909484,
+          "application_bytes_after": 1998,
+          "bytes_saved": 10907486,
+          "input_items_before": 16,
+          "input_items_after": 1,
+          "ingress": "http",
+          "upstream": "websocket",
+          "received_body_bytes": 8164587,
+          "content_encoding": "zstd",
+          "images_before": 3,
+          "images_after": 0,
+          "warmup_count": 0,
+          "ws_compression": "permessage-deflate"
+        }
+      ],
+      "gateway_errors": [
+        {
+          "time": "2026-10-22T07:36:33.785408+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "ClientConnectorError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ConnectionResetError",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:36:33.788957+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "ClientConnectorError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ConnectionResetError",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:36:34.310989+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "ClientConnectorError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ConnectionResetError",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:36:34.324234+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "ClientConnectorError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ConnectionResetError",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:36:35.545503+00:00",
+          "phase": "native_http",
+          "response_started": true,
+          "exception": "ClientConnectionResetError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:36:35.689937+00:00",
+          "phase": "native_http",
+          "response_started": true,
+          "exception": "ClientConnectionResetError",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:07.777959+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:08.205227+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:08.848594+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:09.829448+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:11.677956+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:15.253641+00:00",
+          "phase": "ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:15.349184+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:15.391372+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:15.391504+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:15.703700+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:15.746356+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:15.746553+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:16.264145+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:16.308644+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:16.308836+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:17.165263+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:17.207974+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:17.208172+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:18.951425+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:18.994877+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:18.995074+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:19.329708+00:00",
+          "phase": "http_ws_handshake",
+          "exception": "InvalidProxyStatus",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": []
+        },
+        {
+          "time": "2026-10-22T07:37:19.372370+00:00",
+          "phase": "preflight_http",
+          "pending_payload_sent": false,
+          "exception": "ClientHttpProxyError",
+          "errno": null,
+          "http_status": 503,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        },
+        {
+          "time": "2026-10-22T07:37:19.372556+00:00",
+          "phase": "native_http",
+          "response_started": false,
+          "exception": "UpstreamPreflightFailed",
+          "errno": null,
+          "http_status": null,
+          "ws_close_code": null,
+          "causes": [
+            {
+              "type": "ClientHttpProxyError",
+              "errno": null
+            },
+            {
+              "type": "InvalidProxyStatus",
+              "errno": null
+            }
+          ]
+        }
+      ],
+      "scope_checks": [
+        {
+          "turn": 1,
+          "identity_same": false,
+          "principal_same": false,
+          "handshake_same": false,
+          "changed_noncredential_header_names": [
+            "chatgpt-account-id",
+            "openai-beta",
+            "originator",
+            "session-id",
+            "thread-id",
+            "user-agent",
+            "version",
+            "x-client-request-id",
+            "x-codex-beta-features",
+            "x-codex-routing-hint",
+            "x-codex-turn-metadata",
+            "x-codex-window-id"
+          ],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": false,
+          "changed_noncredential_header_names": [
+            "x-codex-turn-metadata"
+          ],
+          "pool_entries": 1
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": false,
+          "changed_noncredential_header_names": [
+            "openai-beta",
+            "x-openai-internal-codex-responses-lite"
+          ],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 0
+        },
+        {
+          "turn": 2,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 1
+        },
+        {
+          "turn": 3,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": false,
+          "changed_noncredential_header_names": [
+            "x-codex-turn-metadata"
+          ],
+          "pool_entries": 1
+        },
+        {
+          "turn": 3,
+          "identity_same": true,
+          "principal_same": true,
+          "handshake_same": true,
+          "changed_noncredential_header_names": [],
+          "pool_entries": 2
+        }
+      ],
+      "proxy_upload_bytes": 25158616,
+      "proxy_download_bytes": 819748,
+      "connects": 10,
+      "blocked_connects": 18,
+      "tool_calls": [
+        {
+          "index": 2,
+          "ok": true,
+          "value": 775
+        },
+        {
+          "index": 1,
+          "ok": true,
+          "value": 738
+        }
+      ],
+      "all_valid": true
+    }
+  ]
+}

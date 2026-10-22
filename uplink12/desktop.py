@@ -1,4 +1,4 @@
-"""Per-user Windows lifecycle. All control messages stay on loopback."""
+"""Desktop entry point and shared loopback daemon; Windows lifecycle below."""
 from __future__ import annotations
 import argparse
 import asyncio
@@ -88,6 +88,10 @@ class InstanceLock:
 
 async def serve(home):
     cfg=settings(home);stop=asyncio.Event()
+    if sys.platform=='darwin':
+        import signal
+        loop=asyncio.get_running_loop()
+        for sig in (signal.SIGTERM,signal.SIGINT):loop.add_signal_handler(sig,stop.set)
     gw=Gateway(target_http=cfg['target_http'],target_ws=cfg['target_ws'],
         token=cfg['local_token'],port=cfg['port'],upstream_proxy=cfg['upstream_proxy'],
         cache_seconds=300,metrics=str(home/'metrics.jsonl'),native_mount=True,shutdown_event=stop)
@@ -268,6 +272,9 @@ def open_codex(home):
     return {'launch_requested':True}
 
 def main():
+    if sys.platform=='darwin':
+        from .macos import main as macos_main
+        return macos_main()
     p=argparse.ArgumentParser();p.add_argument('--home',type=Path,default=default_home())
     p.add_argument('command',choices=['install','start','stop','uninstall','status','doctor','daemon','open'])
     a=p.parse_args();home=a.home.resolve()

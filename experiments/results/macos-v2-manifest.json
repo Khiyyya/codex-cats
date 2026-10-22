@@ -1,0 +1,15 @@
+{
+  "files": {
+    "experiments/traffic_macos.py": "d8e9b9baddda4879d23dc380a9f1940d2475f5eb109db2e80cda7d63ad94d5e5",
+    "uplink12/gateway.py": "c38d238d443f558f537d15c03e20fa0f46f372308a56b821f6f94177048a4570",
+    "uplink12/protocol.py": "01c10aa08712b22562e19028ac555629fc7167a66d625674f781d1129266fde4",
+    "uplink12/macos.py": "b0526d8de9d919d18ed62c6e1b88504f5361f39ded77681ecf803e2e5b20e2f4"
+  },
+  "measurement_version": 2,
+  "formal_result": "macos-2026-10-22-v2.json",
+  "supersedes": "macos-2026-10-22-v1.json",
+  "post_measurement_source_note": "uplink12/macos.py doctor verification-limit wording updated after the run started; gateway, planner, and measurement script unchanged.",
+  "report_generator_sha256": "cfaea6fbefeb5e10ed4116f4086ee3d4f62950df9010d144244f2af6ea7d8577",
+  "result_sha256": "e86e6491cab894e8ec416c4de6c25041b926bde15727ba0238aa5f588ca48885",
+  "report_sha256": "912dbe828f2148a53e21b7714c10acd1f2e871429e9b1167f2232f39ca0a1fab"
+}

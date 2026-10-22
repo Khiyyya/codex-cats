@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import tomllib
 from urllib.parse import urlsplit
@@ -106,6 +107,9 @@ def parse_proxy(value):
     return value.rstrip('/')
 
 def detect_proxy():
+    if sys.platform=='darwin':
+        from .macos import detect_proxy as detect_macos_proxy
+        return detect_macos_proxy()
     for key in ('HTTPS_PROXY','https_proxy'):
         if os.environ.get(key):return parse_proxy(os.environ[key]),'environment'
     if os.name=='nt':
@@ -121,6 +125,9 @@ def detect_proxy():
     return None,'direct'
 
 def discover():
+    if sys.platform=='darwin':
+        from .macos import discover as discover_macos
+        return discover_macos()
     core=list((Path(os.environ.get('LOCALAPPDATA',''))/'OpenAI'/'Codex'/'bin').glob('*/codex.exe'))
     core=sorted(core,key=lambda p:p.stat().st_mtime,reverse=True)
     result={'core':str(core[0]) if core else None,'desktop':None}

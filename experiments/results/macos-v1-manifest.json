@@ -1,0 +1,8 @@
+{
+  "files": {
+    "experiments/traffic_macos.py": "ea9f991cfe0bbd18df1677661a72fa72005755b6d9d5cd342ddd8179833d48c9",
+    "uplink12/gateway.py": "c38d238d443f558f537d15c03e20fa0f46f372308a56b821f6f94177048a4570",
+    "uplink12/protocol.py": "01c10aa08712b22562e19028ac555629fc7167a66d625674f781d1129266fde4"
+  },
+  "measurement_version": 1
+}

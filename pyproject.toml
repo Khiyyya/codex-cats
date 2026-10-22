@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "codex-cats"
 version = "12.2.0"
-description = "Experimental lossless Windows Codex uplink companion"
+description = "Experimental lossless Windows and macOS Codex uplink companion"
 requires-python = ">=3.11"
 license = "MIT"
 dependencies = ["aiohttp==3.14.5", "websockets==16.1.1", "zstandard==0.25.0", "tomlkit==0.13.3", "multidict==7.1.0", "yarl==1.25.1"]

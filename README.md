@@ -14,10 +14,12 @@
 
 <p align="center">
   <a href="README.en.md">English</a> ·
+  <a href="README.macos.md">macOS 实验版</a> ·
+  <a href="experiments/RESULTS.macos.md">实验报告</a> ·
   <a href="#安装与使用">安装与使用</a>
 </p>
 
-CATS 是面向 Windows 官方 Codex Desktop 的实验性本地网关伴侣，通过复用服务器已确认的上下文和连接探测，减少多模态上下文与消息的重复上行，拯救你的带宽和代理流量。
+CATS 是面向 Windows 官方 Codex Desktop 的实验性本地网关伴侣，并提供 macOS 源码实验版。它通过复用服务器已确认的上下文和连接探测，减少多模态上下文与消息的重复上行，拯救你的带宽和代理流量。
 
 ## 为什么需要 CATS？
 
@@ -30,7 +32,7 @@ CATS 是面向 Windows 官方 Codex Desktop 的实验性本地网关伴侣，通
 - **自动上下文增量**：Codex 在某些情况下会触发不必要的上下文全量上传。CATS 在 HTTP 与 WebSocket 入口共用严格的延续判定，复用同一上游连接中已确认完成的上下文。
 - **大载荷连接检查**：连接不稳定时，重试过程中的重复上传仍可能消耗代理流量。CATS 在发送较大载荷前执行 WS Ping 或 HTTP HEAD；探测失败时返回重试信号，交由客户端继续重连。
 
-## 实测：约 10.8 MB 图片上下文
+## Windows 实测：约 10.8 MB 图片上下文
 
 使用 **3 张不同 PNG**，合计 Base64 上下文约 **10.8 MB**，对比原生请求透传与 CATS 在连接中断、恢复及后续请求中的上行流量，两组各完成 4 次生成。
 
@@ -42,6 +44,19 @@ CATS 是面向 Windows 官方 Codex Desktop 的实验性本地网关伴侣，通
 | 已完成生成的规范化 JSON 载荷 | 43.23 MB | 21.58 MB | **50.07%** |
 | 第三次生成的 JSON 载荷 | 10,822,938 B | 2,480 B | **99.98%** |
 | 第四次生成的 JSON 载荷 | 10,824,191 B | 2,505 B | **99.98%** |
+
+## macOS 流量与历史图片免重传实测
+
+使用本机官方 Mac 核心与真实上游，分别对稳定网络和首轮后断线 12 秒做两组成对实验：
+
+| 功能 | 结果 | 范围 |
+| --- | --- | --- |
+| 整体上下文增量 | 断线场景平均代理上行 57.47 MB → 37.63 MB，减少 **34.527%** | 稳定原生 WS 基本持平；两对断线节省分别为 41.66% / 27.39% |
+| 历史图片免重传（图片过滤） | 5 次命中请求约 10.9 MB → 2 KB，应用载荷减少约 **99.98%**；每次 3 张历史图片正文无需重传 | 不是图片压缩；首次上传和新基线仍完整发送 |
+
+正式复测 32/32 轮完成，图片回忆和工具结果各 24/24 正确；37 项离线回归通过。两行是同一实验的整场与请求级指标，收益不能叠加。
+
+完整方法、原始统计、观察脚本修正及局限见 [实验报告](experiments/RESULTS.macos.md)。测量边界是本机中继→既有代理的 CONNECT/TLS 字节，未覆盖真实 Desktop GUI、WAN/NIC 抓包或登录周期；CPU、内存和首图耗时未单独测试。Mac 仍为实验版。
 
 ## 工作原理
 
@@ -77,6 +92,8 @@ HTTP 转 WebSocket 会转换传输封装；其他原生端点保留原请求路�
 
 ## 安装与使用
 
+### Windows x64
+
 **必须项**：Windows x64、PowerShell 5.1+、Git；官方 Codex Desktop 已通过 ChatGPT 登录，使用默认 OpenAI 提供方；网络采用直连或无凭据 HTTP(S) 代理。
 
 在 PowerShell 中执行：
@@ -89,18 +106,28 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows.ps1 -A
 
 安装器自动准备独立 Python 环境、识别 Codex、配置网关和当前用户登录自启。安装后重启 Codex。
 
+### macOS 实验版
+
+需要包含 Codex 核心的 Codex/ChatGPT 应用、ChatGPT 登录和稳定安装的 Python 3.11+。在本源码目录双击 `INSTALL-MAC.command`，或运行：
+
+```bash
+bash scripts/macos.sh install
+```
+
+Mac 使用独立 venv，仍依赖基础 Python；通过用户级 LaunchAgent 管理后台。安装成功后重启已经打开的 Codex。安装位置、代理、停止和卸载说明见 [macOS 指南](README.macos.md)。
+
 ### 管理入口
 
 在项目目录或安装目录中运行对应文件：
 
-| 入口 | 功能 |
-| --- | --- |
-| `INSTALL.cmd` | 安装或更新 |
-| `OPEN-CODEX.cmd` | 启动网关并打开 Codex |
-| `START-GATEWAY.cmd` | 启动网关并启用接入 |
-| `STOP-GATEWAY.cmd` | 恢复接入配置并停止网关 |
-| `STATUS.cmd` | 查看状态与应用层载荷统计 |
-| `DOCTOR.cmd` | 检查环境、自启与代理连通性 |
-| `UNINSTALL.cmd` | 恢复配置、移除启动项并清理安装目录 |
+| Windows 入口 | macOS 入口 | 功能 |
+| --- | --- | --- |
+| `INSTALL.cmd` | `INSTALL-MAC.command` | 安装（Windows 也支持更新） |
+| `OPEN-CODEX.cmd` | `OPEN-CODEX-MAC.command` | 启动网关并打开 Codex |
+| `START-GATEWAY.cmd` | `START-GATEWAY-MAC.command` | 启动网关并启用接入 |
+| `STOP-GATEWAY.cmd` | `STOP-GATEWAY-MAC.command` | 恢复接入配置并停止网关 |
+| `STATUS.cmd` | `STATUS-MAC.command` | 查看状态与应用层载荷统计 |
+| `DOCTOR.cmd` | `DOCTOR-MAC.command` | 检查环境、自启与代理连通性 |
+| `UNINSTALL.cmd` | `UNINSTALL-MAC.command` | 恢复配置、移除集成（Windows 清理安装目录） |
 
-停止或卸载后，重启 Codex 以加载恢复后的配置。
+停止或卸载后，重启 Codex 以加载恢复后的配置。Mac 卸载移除集成并保留私人运行时与配置备份；确认成功后可按 macOS 指南手动清理。
